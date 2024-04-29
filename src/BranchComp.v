@@ -27,7 +27,7 @@ module BranchComp(
                     BrLt = (data1<data2) ? 1 : 0 ;
             end
         end
-        else begin
+        else if(BrUn[0] == 1'b0)begin
             BrEq = 1'b0;
             BrLt = 1'b0;
         end

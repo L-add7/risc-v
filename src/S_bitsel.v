@@ -17,7 +17,7 @@ module S_bitsel(
                         2'b10 : begin dataout = {8'b0,data[7:0],16'b0};   dmemwe_o = 4'b0100; end
                         2'b11 : begin dataout = {data[7:0],24'b0};        dmemwe_o = 4'b1000; end
                     endcase
-            default : dataout = 32'b0;
+            default : begin dataout = 32'b0; dmemwe_o = 4'b0000; end
         endcase
 
     end

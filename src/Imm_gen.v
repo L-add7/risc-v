@@ -16,6 +16,7 @@ module Imm_gen(
             `OPC_JALR_5  :     imm = {{20{inst[31]}},inst[31:20]};
             `OPC_LUI_5:        imm = {inst[31:12],12'b0};
             `OPC_AUIPC_5:      imm = {inst[31:12],12'b0};
+            default : imm = 32'b0;
             //todo : add csrrw
         endcase
     end

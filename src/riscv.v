@@ -11,75 +11,78 @@ module riscv(
     // output                  [31:0]      addr_to_dmem,
     // output                  [31:0]      data_to_dmem,
     // output                  [3:0]       we_dmem,
-    // output                              en_dmem                                     
+    // output                              en_dmem,
 );    
 // fetch
-    wire        [31:0]          pc_branch_target;
-    wire                        stall_from_ldsw;
-    wire                        pc_jump;
-    wire        [31:0]          pc_d_logic,pc_d_reg;
-    wire        [31:0]          inst;
-    wire        [31:0]          pc;
+    (* keep = "true" *)  wire        [31:0]          pc_branch_target;
+    (* keep = "true" *)  wire                        stall_from_ldsw;
+    (* keep = "true" *)  wire                        pc_jump;
+    (* keep = "true" *)  wire        [31:0]          pc_d_logic,pc_d_reg;
+    (* keep = "true" *)  wire        [31:0]          inst;
+    (* keep = "true" *)  wire        [31:0]          pc;
 //decode 
 
-    wire         [1:0]               sel_ra1_i;
-    wire         [1:0]               sel_ra2_i;
+    (* keep = "true" *)  wire         [1:0]               sel_ra1_i;
+    (* keep = "true" *)  wire         [1:0]               sel_ra2_i;
 
-    wire        [4:0]       ra1_d,ra2_d;
-    wire [31:0] pc_e_logic;
-    wire [31:0] reg1_i,reg2_i;
-    wire [4:0]  wa_d,wa_e_logic;
-    wire [31:0] data1_d,data2_d,imm_d,data1_e_logic,data2_e_logic,imm_e_logic;
-    wire [1:0]  aluBsel_d,aluBsel_e_logic;
-    wire        aluAsel_d,aluAsel_e_logic;
-    wire [1:0]  BrUn_d,BrUn_e_logic;
-    wire [3:0]  alu_sel_d,alu_sel_e_logic;
-    wire        dmemen_d,dmemen_e_logic;
-    wire [3:0]  dmemwe_d,dmemwe_e_logic;
-    wire        wdata_sel_d,wdata_sel_e_logic;
-    wire [3:0]  LD_sel_d,LD_sel_e_logic;
-    wire        pc_sel_out_d;
-    wire        we_d,we_e_logic;
-    wire        flush_d,flush_f;
-
-
-    wire    [31:0]      aluout_e_reg;
-    wire    [4:0]       wa_e_reg;
-    wire                we_e_reg;
-    wire                dmemen_e_reg;
-    wire    [3:0]       dmemwe_e_reg;
-    wire                wdata_sel_e_reg;
-    wire    [3:0]       LD_sel_e_reg;
-    wire    [31:0]      data2_e_reg;
+    (* keep = "true" *)  wire        [4:0]       ra1_d,ra2_d;
+    (* keep = "true" *)  wire [31:0] pc_e_logic;
+    (* keep = "true" *)  wire [31:0] reg1_i,reg2_i;
+    (* keep = "true" *)  wire [4:0]  wa_d,wa_e_logic;
+    (* keep = "true" *)  wire [31:0] data1_d,data2_d,imm_d,data1_e_logic,data2_e_logic,imm_e_logic;
+    (* keep = "true" *)  wire [1:0]  aluBsel_d,aluBsel_e_logic;
+    (* keep = "true" *)  wire        aluAsel_d,aluAsel_e_logic;
+    (* keep = "true" *)  wire [1:0]  BrUn_d,BrUn_e_logic;
+    (* keep = "true" *)  wire [3:0]  alu_sel_d,alu_sel_e_logic;
+    (* keep = "true" *)  wire        dmemen_d,dmemen_e_logic;
+    (* keep = "true" *)  wire [3:0]  dmemwe_d,dmemwe_e_logic;
+    (* keep = "true" *)  wire        wdata_sel_d,wdata_sel_e_logic;
+    (* keep = "true" *)  wire [3:0]  LD_sel_d,LD_sel_e_logic;
+    (* keep = "true" *)  wire        pc_sel_out_d;
+    (* keep = "true" *)  wire        we_d,we_e_logic;
+    (* keep = "true" *)  wire        flush_d,flush_f;
 
 
-    wire    [31:0]      aluout_m_logic,wdata_m_reg,dmemdata_m_reg;
-    wire    [4:0]       wa_m_logic,wa_m_reg;
-    wire                we_m_logic,we_m_reg;
-    wire                dmemen_m_logic,dmemen_m_reg;
-    wire    [3:0]       dmemwe_m_logic,dmemwe_m_reg;
-    wire                wdata_sel_m_logic;
-    wire    [3:0]       LD_sel_m_logic,LD_sel_m_reg;
-    wire    [31:0]      data2_m_logic;
+    (* keep = "true" *)  wire    [31:0]      aluout_e_reg;
+    (* keep = "true" *)  wire    [4:0]       wa_e_reg;
+    (* keep = "true" *)  wire                we_e_reg;
+    (* keep = "true" *)  wire                dmemen_e_reg;
+    (* keep = "true" *)  wire    [3:0]       dmemwe_e_reg;
+    (* keep = "true" *)  wire                wdata_sel_e_reg;
+    (* keep = "true" *)  wire    [3:0]       LD_sel_e_reg;
+    (* keep = "true" *)  wire    [31:0]      data2_e_reg;
 
-    wire        [3:0]       dmemwe_w_logic,dmemwe_w_reg;
-    wire                    dmemen_w_logic,dmemen_w_reg;
-    wire        [4:0]       wa_w_logic,wa_w_reg;
-    wire                    we_w_logic,we_w_reg;
-    wire        [31:0]      wdata_w_logic,wdata_w_reg;
-    wire        [31:0]      dmemdata_w_logic,dmemdata_w_reg;
-    wire        [3:0]       LD_sel_w_logic;
 
-    wire   [13:0] dmemaddr = LD_sel_m_reg[0] ? aluout_m_logic[15:2] : wdata_w_reg[15:2];
-    wire          dmemen_in= LD_sel_m_reg[0] ? dmemen_m_reg : dmemen_w_reg;
+    (* keep = "true" *)  wire    [31:0]      aluout_m_logic,wdata_m_reg,dmemdata_m_reg;
+    (* keep = "true" *)  wire    [4:0]       wa_m_logic,wa_m_reg;
+    (* keep = "true" *)  wire                we_m_logic,we_m_reg;
+    (* keep = "true" *)  wire                dmemen_m_logic,dmemen_m_reg;
+    (* keep = "true" *)  wire    [3:0]       dmemwe_m_logic,dmemwe_m_reg;
+    (* keep = "true" *)  wire                wdata_sel_m_logic;
+    (* keep = "true" *)  wire    [3:0]       LD_sel_m_logic,LD_sel_m_reg;
+    (* keep = "true" *)  wire    [31:0]      data2_m_logic;
 
-    wire        stall_from_ld_1clk;
-    wire        stall_from_ld_2clk;
-    wire        rstype_d;
-    wire    [2:0]   bresult_sel_d,bresult_sel_e_logic;
-    wire        predict_hit,predict_miss;
+    (* keep = "true" *)  wire        [3:0]       dmemwe_w_logic,dmemwe_w_reg;
+    (* keep = "true" *)  wire                    dmemen_w_logic,dmemen_w_reg;
+    (* keep = "true" *)  wire        [4:0]       wa_w_logic,wa_w_reg;
+    (* keep = "true" *)  wire                    we_w_logic,we_w_reg;
+    (* keep = "true" *)  wire        [31:0]      wdata_w_logic,wdata_w_reg;
+    (* keep = "true" *)  wire        [31:0]      dmemdata_w_logic,dmemdata_w_reg;
+    (* keep = "true" *)  wire        [3:0]       LD_sel_w_logic;
 
-    pc_reg u_pc_reg(
+    (* keep = "true" *)  wire   [13:0] dmemaddr = LD_sel_m_reg[0] ? aluout_m_logic[15:2] : wdata_w_reg[15:2];
+    (* keep = "true" *)  wire          dmemen_in= LD_sel_m_reg[0] ? dmemen_m_reg : dmemen_w_reg;
+
+    (* keep = "true" *)  wire        stall_from_ld_1clk;
+    (* keep = "true" *)  wire        stall_from_ld_2clk;
+    (* keep = "true" *)  wire        rstype_d;
+    (* keep = "true" *)  wire    [2:0]   bresult_sel_d,bresult_sel_e_logic;
+    (* keep = "true" *)  wire        predict_hit,predict_miss;
+
+    (* keep = "true" *)  wire        [31:0]  dmemin;
+
+
+    (* keep_hierarchy="yes" *)pc_reg u_pc_reg(
         .clk             ( clk             ),
         .rst             ( rst             ),
         .pc_i_jump       ( pc_branch_target       ),
@@ -92,7 +95,7 @@ module riscv(
     );
 
 
-    fetch2decode u_fetch2decode(
+    (* keep_hierarchy="yes" *)fetch2decode u_fetch2decode(
         .clk  ( clk  ),
         .rst  ( rst  ),
         .stall_from_ld_2clk_i ( stall_from_ld_2clk ),
@@ -102,7 +105,7 @@ module riscv(
         .pc_o  ( pc_d_logic  )
     );
 
-    imem imem(
+    (* keep_hierarchy="yes" *)imem imem(
         .clk   ( clk   ),
         .ena   ( 1'b0   ),
         .wea   ( 4'b0   ),
@@ -113,7 +116,7 @@ module riscv(
 );
 
 
-    reg_file rf(
+    (* keep_hierarchy="yes" *)reg_file rf(
         .clk ( clk ),
         .we  ( we_w_reg  ),
         .ra1 ( ra1_d ),
@@ -126,7 +129,7 @@ module riscv(
 
 
 
-    decode u_decode(
+    (* keep_hierarchy="yes" *)decode u_decode(
         .inst        ( inst        ),
         .pc_i        ( pc_d_logic        ),
         .pc_o        ( pc_d_reg        ),
@@ -158,7 +161,7 @@ module riscv(
         .bresult_sel_o( bresult_sel_d)
 );
 
-    decode2execute u_decode2execute(
+    (* keep_hierarchy="yes" *)decode2execute u_decode2execute(
         .clk          ( clk          ),
         .rst          ( rst          ),
         .pc_i         ( pc_d_reg        ),
@@ -200,7 +203,7 @@ module riscv(
 
 
 
-    execute u_execute(
+    (* keep_hierarchy="yes" *)execute u_execute(
         .pc_i        ( pc_e_logic        ),
         .data1_i     ( data1_e_logic     ),
         .data2_i     ( data2_e_logic     ),
@@ -230,7 +233,7 @@ module riscv(
 
 
 
-    execute2memory u_execute2memory(
+    (* keep_hierarchy="yes" *)execute2memory u_execute2memory(
         .clk         ( clk         ),
         .rst         ( rst         ),
         .aluout_i    ( aluout_e_reg    ),
@@ -251,10 +254,9 @@ module riscv(
         .data2_o     ( data2_m_logic     )
     );
 
-    wire        [31:0]  dmemin;
 
 
-    memory u_memory(
+    (* keep_hierarchy="yes" *)memory u_memory(
         .wa_i        ( wa_m_logic        ),
         .we_i        ( we_m_logic        ),
         .aluout_i    ( aluout_m_logic    ),
@@ -275,7 +277,7 @@ module riscv(
 
 
 
-    memory2writeback u_memory2writeback(
+    (* keep_hierarchy="yes" *)memory2writeback u_memory2writeback(
         .clk        ( clk        ),
         .rst        ( rst        ),
         .dmemwe_i   ( dmemwe_m_reg   ),
@@ -295,7 +297,7 @@ module riscv(
 );
 
 
-    writeback u_writeback(
+    (* keep_hierarchy="yes" *)writeback u_writeback(
         .wa_i       ( wa_w_logic       ),
         .we_i       ( we_w_logic       ),
         .wdata_i    ( wdata_w_logic    ),
@@ -313,7 +315,7 @@ module riscv(
 
 
 
-    dmem dmem(
+    (* keep_hierarchy="yes" *)dmem dmem(
         .clk  ( clk  ),
         .en   ( dmemen_in   ),
         .we   ( dmemwe_w_reg   ),
@@ -323,7 +325,7 @@ module riscv(
 );
 
 
-    HazardUnit u_HazardUnit(
+    (* keep_hierarchy="yes" *)HazardUnit u_HazardUnit(
         .ra1_decode_i ( ra1_d ),
         .ra2_decode_i ( ra2_d ),
         .wa_execute_i ( wa_e_reg ),
