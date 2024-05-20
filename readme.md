@@ -2,7 +2,7 @@
 
 ## RV32I指令集
 
-![image-20240520171709339](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520171709339.png)
+![image-20240520171709339](/home/lijiaqi/project/riscv1/readme.assets/image-20240520171709339.png)
 
 在该工程中，实现了上述RV32I的基础指令集，具体的各个指令功能可以参照文件中的riscv-card。
 
@@ -51,7 +51,8 @@ ALU 在运算时要使用到之前指令得到的两个寄存器值
 （3）2-bit计数器当前状态为10或者11，则预测本次跳转，如果为00或者01，则预测本次不跳转。
 
 实际研究表明，2-bit计数器相较于1-bit精度较高，如果再提高到3-bit，精度提升不明显。因此业界大多使用2-bit计数器。
-![image-20240520185919349](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520185919349.png)
+
+![image-20240520191503009](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191503009.png)
 
 在分支预测失败时，我们需要产生flush信号来冲刷掉之前进行的信号。
 
@@ -65,26 +66,26 @@ ALU 在运算时要使用到之前指令得到的两个寄存器值
 
 ## 结果电路图
 
-![image-20240520191056785](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520191056785.png)
+![image-20240520191512188](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191512188.png)
 
 ## 仿真结果
 
-![image-20240520190607110](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520190607110.png)
+![image-20240520191523431](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191523431.png)
 
-![image-20240520190645557](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520190645557.png)
+![image-20240520191529761](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191529761.png)
 
 ## 综合布线结果
 
 资源用量
 
-![image-20240520162641982](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520162641982.png)
+![image-20240520191534714](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191534714.png)
 
 各模块消耗量
 
-![image-20240520162704050](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520162704050.png)
+![image-20240520191539552](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191539552.png)
 
 然而不幸的是，我的是时序报告如下：
 
-![image-20240520171141358](/home/lijiaqi/.config/Typora/typora-user-images/image-20240520171141358.png)
+![image-20240520191548874](/home/lijiaqi/project/riscv1/readme.assets/image-20240520191548874.png)
 
 这说明时序很好，所以也无法算出最大频率——感觉是时序约束错了（可能，不太懂）
