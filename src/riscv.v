@@ -3,7 +3,7 @@
 
 module riscv(
     input                               clk,
-    input                               rst
+    input                               rst,
     // input                   [31:0]      inst,
     // output                  [31:0]      pc,
 
@@ -11,76 +11,76 @@ module riscv(
     // output                  [31:0]      addr_to_dmem,
     // output                  [31:0]      data_to_dmem,
     // output                  [3:0]       we_dmem,
-    // output                              en_dmem,
+    output                              en_dmem
 );    
 // fetch
-    (* keep = "true" *)  wire        [31:0]          pc_branch_target;
-    (* keep = "true" *)  wire                        stall_from_ldsw;
-    (* keep = "true" *)  wire                        pc_jump;
-    (* keep = "true" *)  wire        [31:0]          pc_d_logic,pc_d_reg;
-    (* keep = "true" *)  wire        [31:0]          inst;
-    (* keep = "true" *)  wire        [31:0]          pc;
+    (* dont_touch= "true" *)wire        [31:0]          pc_branch_target;
+    (* dont_touch= "true" *)wire                        stall_from_ldsw;
+    (* dont_touch= "true" *)wire                        pc_jump;
+    (* dont_touch= "true" *)wire        [31:0]          pc_d_logic,pc_d_reg;
+    (* dont_touch= "true" *)wire        [31:0]          inst;
+    (* dont_touch= "true" *)wire        [31:0]          pc;
 //decode 
 
-    (* keep = "true" *)  wire         [1:0]               sel_ra1_i;
-    (* keep = "true" *)  wire         [1:0]               sel_ra2_i;
+    (* dont_touch= "true" *)wire         [1:0]               sel_ra1_i;
+    (* dont_touch= "true" *)wire         [1:0]               sel_ra2_i;
 
-    (* keep = "true" *)  wire        [4:0]       ra1_d,ra2_d;
-    (* keep = "true" *)  wire [31:0] pc_e_logic;
-    (* keep = "true" *)  wire [31:0] reg1_i,reg2_i;
-    (* keep = "true" *)  wire [4:0]  wa_d,wa_e_logic;
-    (* keep = "true" *)  wire [31:0] data1_d,data2_d,imm_d,data1_e_logic,data2_e_logic,imm_e_logic;
-    (* keep = "true" *)  wire [1:0]  aluBsel_d,aluBsel_e_logic;
-    (* keep = "true" *)  wire        aluAsel_d,aluAsel_e_logic;
-    (* keep = "true" *)  wire [1:0]  BrUn_d,BrUn_e_logic;
-    (* keep = "true" *)  wire [3:0]  alu_sel_d,alu_sel_e_logic;
-    (* keep = "true" *)  wire        dmemen_d,dmemen_e_logic;
-    (* keep = "true" *)  wire [3:0]  dmemwe_d,dmemwe_e_logic;
-    (* keep = "true" *)  wire        wdata_sel_d,wdata_sel_e_logic;
-    (* keep = "true" *)  wire [3:0]  LD_sel_d,LD_sel_e_logic;
-    (* keep = "true" *)  wire        pc_sel_out_d;
-    (* keep = "true" *)  wire        we_d,we_e_logic;
-    (* keep = "true" *)  wire        flush_d,flush_f;
-
-
-    (* keep = "true" *)  wire    [31:0]      aluout_e_reg;
-    (* keep = "true" *)  wire    [4:0]       wa_e_reg;
-    (* keep = "true" *)  wire                we_e_reg;
-    (* keep = "true" *)  wire                dmemen_e_reg;
-    (* keep = "true" *)  wire    [3:0]       dmemwe_e_reg;
-    (* keep = "true" *)  wire                wdata_sel_e_reg;
-    (* keep = "true" *)  wire    [3:0]       LD_sel_e_reg;
-    (* keep = "true" *)  wire    [31:0]      data2_e_reg;
+    (* dont_touch= "true" *)wire        [4:0]       ra1_d,ra2_d;
+    (* dont_touch= "true" *)wire [31:0] pc_e_logic;
+    (* dont_touch= "true" *)wire [31:0] reg1_i,reg2_i;
+    (* dont_touch= "true" *)wire [4:0]  wa_d,wa_e_logic;
+    (* dont_touch= "true" *)wire [31:0] data1_d,data2_d,imm_d,data1_e_logic,data2_e_logic,imm_e_logic;
+    (* dont_touch= "true" *)wire [1:0]  aluBsel_d,aluBsel_e_logic;
+    (* dont_touch= "true" *)wire        aluAsel_d,aluAsel_e_logic;
+    (* dont_touch= "true" *)wire [1:0]  BrUn_d,BrUn_e_logic;
+    (* dont_touch= "true" *)wire [3:0]  alu_sel_d,alu_sel_e_logic;
+    (* dont_touch= "true" *)wire        dmemen_d,dmemen_e_logic;
+    (* dont_touch= "true" *)wire [3:0]  dmemwe_d,dmemwe_e_logic;
+    (* dont_touch= "true" *)wire        wdata_sel_d,wdata_sel_e_logic;
+    (* dont_touch= "true" *)wire [3:0]  LD_sel_d,LD_sel_e_logic;
+    (* dont_touch= "true" *)wire        pc_sel_out_d;
+    (* dont_touch= "true" *)wire        we_d,we_e_logic;
+    (* dont_touch= "true" *)wire        flush_d,flush_f;
 
 
-    (* keep = "true" *)  wire    [31:0]      aluout_m_logic,wdata_m_reg,dmemdata_m_reg;
-    (* keep = "true" *)  wire    [4:0]       wa_m_logic,wa_m_reg;
-    (* keep = "true" *)  wire                we_m_logic,we_m_reg;
-    (* keep = "true" *)  wire                dmemen_m_logic,dmemen_m_reg;
-    (* keep = "true" *)  wire    [3:0]       dmemwe_m_logic,dmemwe_m_reg;
-    (* keep = "true" *)  wire                wdata_sel_m_logic;
-    (* keep = "true" *)  wire    [3:0]       LD_sel_m_logic,LD_sel_m_reg;
-    (* keep = "true" *)  wire    [31:0]      data2_m_logic;
+    (* dont_touch= "true" *)wire    [31:0]      aluout_e_reg;
+    (* dont_touch= "true" *)wire    [4:0]       wa_e_reg;
+    (* dont_touch= "true" *)wire                we_e_reg;
+    (* dont_touch= "true" *)wire                dmemen_e_reg;
+    (* dont_touch= "true" *)wire    [3:0]       dmemwe_e_reg;
+    (* dont_touch= "true" *)wire                wdata_sel_e_reg;
+    (* dont_touch= "true" *)wire    [3:0]       LD_sel_e_reg;
+    (* dont_touch= "true" *)wire    [31:0]      data2_e_reg;
 
-    (* keep = "true" *)  wire        [3:0]       dmemwe_w_logic,dmemwe_w_reg;
-    (* keep = "true" *)  wire                    dmemen_w_logic,dmemen_w_reg;
-    (* keep = "true" *)  wire        [4:0]       wa_w_logic,wa_w_reg;
-    (* keep = "true" *)  wire                    we_w_logic,we_w_reg;
-    (* keep = "true" *)  wire        [31:0]      wdata_w_logic,wdata_w_reg;
-    (* keep = "true" *)  wire        [31:0]      dmemdata_w_logic,dmemdata_w_reg;
-    (* keep = "true" *)  wire        [3:0]       LD_sel_w_logic;
 
-    (* keep = "true" *)  wire   [13:0] dmemaddr = LD_sel_m_reg[0] ? aluout_m_logic[15:2] : wdata_w_reg[15:2];
-    (* keep = "true" *)  wire          dmemen_in= LD_sel_m_reg[0] ? dmemen_m_reg : dmemen_w_reg;
+    (* dont_touch= "true" *)wire    [31:0]      aluout_m_logic,wdata_m_reg,dmemdata_m_reg;
+    (* dont_touch= "true" *)wire    [4:0]       wa_m_logic,wa_m_reg;
+    (* dont_touch= "true" *)wire                we_m_logic,we_m_reg;
+    (* dont_touch= "true" *)wire                dmemen_m_logic,dmemen_m_reg;
+    (* dont_touch= "true" *)wire    [3:0]       dmemwe_m_logic,dmemwe_m_reg;
+    (* dont_touch= "true" *)wire                wdata_sel_m_logic;
+    (* dont_touch= "true" *)wire    [3:0]       LD_sel_m_logic,LD_sel_m_reg;
+    (* dont_touch= "true" *)wire    [31:0]      data2_m_logic;
 
-    (* keep = "true" *)  wire        stall_from_ld_1clk;
-    (* keep = "true" *)  wire        stall_from_ld_2clk;
-    (* keep = "true" *)  wire        rstype_d;
-    (* keep = "true" *)  wire    [2:0]   bresult_sel_d,bresult_sel_e_logic;
-    (* keep = "true" *)  wire        predict_hit,predict_miss;
+    (* dont_touch= "true" *)wire        [3:0]       dmemwe_w_logic,dmemwe_w_reg;
+    (* dont_touch= "true" *)wire                    dmemen_w_logic,dmemen_w_reg;
+    (* dont_touch= "true" *)wire        [4:0]       wa_w_logic,wa_w_reg;
+    (* dont_touch= "true" *)wire                    we_w_logic,we_w_reg;
+    (* dont_touch= "true" *)wire        [31:0]      wdata_w_logic,wdata_w_reg;
+    (* dont_touch= "true" *)wire        [31:0]      dmemdata_w_logic,dmemdata_w_reg;
+    (* dont_touch= "true" *)wire        [3:0]       LD_sel_w_logic;
 
-    (* keep = "true" *)  wire        [31:0]  dmemin;
-    (* keep = "true" *)  wire        branchpredicted;
+    (* dont_touch= "true" *)wire   [13:0] dmemaddr = LD_sel_m_reg[0] ? aluout_m_logic[15:2] : wdata_w_reg[15:2];
+    (* dont_touch= "true" *)wire          dmemen_in= LD_sel_m_reg[0] ? dmemen_m_reg : dmemen_w_reg;
+
+    (* dont_touch= "true" *)wire        stall_from_ld_1clk;
+    (* dont_touch= "true" *)wire        stall_from_ld_2clk;
+    (* dont_touch= "true" *)wire        rstype_d;
+    (* dont_touch= "true" *)wire    [2:0]   bresult_sel_d,bresult_sel_e_logic;
+    (* dont_touch= "true" *)wire        predict_hit,predict_miss;
+
+    (* dont_touch= "true" *)wire        [31:0]  dmemin;
+    (* dont_touch= "true" *)wire        branchpredicted;
 
 
     (* keep_hierarchy="yes" *)pc_reg u_pc_reg(
