@@ -2,7 +2,7 @@
 `include "control.vh"
 module crtl(
     input      [31:0]     inst,
-
+    input                 branchpredicted,
     output reg           we,
     output reg    [1:0]   aluBsel,        // 1 for rs2   0 for imm
     output reg   [3:0]   alu_sel,
@@ -62,7 +62,7 @@ module crtl(
                                     default: LD_sel = 4'b0000;
                                 endcase
                                 end
-            `OPC_BRANCH:     begin  we = 1'b0;    aluBsel =  2'b1   ;  BrUn = inst[13] ? `Branch_unsigned : `Branch_signed; alu_sel = `ADD; dmemen = 1'b0; dmemwe = 4'b0000; wdata_sel = 1'b0; LD_sel = 4'b0000; aluAsel = 1'b0; pc_sel = 1'b1;   rstype = 1'b0;
+            `OPC_BRANCH:     begin  we = 1'b0;    aluBsel =  2'b1   ;  BrUn = inst[13] ? `Branch_unsigned : `Branch_signed; alu_sel = `ADD; dmemen = 1'b0; dmemwe = 4'b0000; wdata_sel = 1'b0; LD_sel = 4'b0000; aluAsel = 1'b0; pc_sel = branchpredicted;   rstype = 1'b0;
                                 case (inst[14:12])
                                     `FNC_BEQ : bresult_sel = 3'b001;    //EQUAL 
                                     `FNC_BNE : bresult_sel = 3'b011;    //NOT EQUAL

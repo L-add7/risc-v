@@ -80,6 +80,7 @@ module riscv(
     (* keep = "true" *)  wire        predict_hit,predict_miss;
 
     (* keep = "true" *)  wire        [31:0]  dmemin;
+    (* keep = "true" *)  wire        branchpredicted;
 
 
     (* keep_hierarchy="yes" *)pc_reg u_pc_reg(
@@ -158,7 +159,8 @@ module riscv(
         .pc_sel_out_o  ( pc_jump  ),
         .pc_branch_target(pc_branch_target),
         .rstype_o    ( rstype_d),
-        .bresult_sel_o( bresult_sel_d)
+        .bresult_sel_o( bresult_sel_d),
+        .branchpredicted(branchpredicted)
 );
 
     (* keep_hierarchy="yes" *)decode2execute u_decode2execute(
@@ -326,6 +328,8 @@ module riscv(
 
 
     (* keep_hierarchy="yes" *)HazardUnit u_HazardUnit(
+        .clk(clk),
+        .rst(rst),
         .ra1_decode_i ( ra1_d ),
         .ra2_decode_i ( ra2_d ),
         .wa_execute_i ( wa_e_reg ),
@@ -345,7 +349,8 @@ module riscv(
         .predict_miss(predict_miss),
         .predict_hit(predict_hit),
         .flush_d_o(flush_d),
-        .flush_f_o(flush_f)
+        .flush_f_o(flush_f),
+        .branchpredicted(branchpredicted)
 );
 
 

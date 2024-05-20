@@ -2,13 +2,6 @@
 ##
 
 
-##LEDs
-
-set_property -dict {PACKAGE_PIN R14 IOSTANDARD LVCMOS33} [get_ports {we_w_out}]
-
-
-
-
 ##Switches
 
 set_property -dict {PACKAGE_PIN M20 IOSTANDARD LVCMOS33} [get_ports {rst}]

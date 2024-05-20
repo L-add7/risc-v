@@ -1,4 +1,7 @@
 module HazardUnit(
+    input                   clk,
+    input                   rst,
+
     input         [4:0]     ra1_decode_i,
     input         [4:0]     ra2_decode_i,
                    
@@ -21,8 +24,10 @@ module HazardUnit(
     output                  flush_d_o,
     output                  flush_f_o,
     output                  stall_from_ld_2clk_o,
-    output                  stall_from_ld_1clk_o             
+    output                  stall_from_ld_1clk_o,
+    output                  branchpredicted             
 );
+    reg [1:0]   cnt;
 
     always @(*) begin
         if((ra1_decode_i == wa_execute_i) && (we_execute_i == 1'b1 ))
@@ -52,6 +57,25 @@ module HazardUnit(
 
     assign flush_d_o = predict_hit;
     assign flush_f_o = predict_miss;
+
+    //predict
+    always @(posedge clk or posedge rst) begin
+        if(rst)
+            cnt <=  2'd3;
+        else if(predict_hit)begin
+            if(cnt == 2'd3)
+                cnt <= cnt;
+            else
+                cnt <= cnt+1; 
+        end else if(predict_miss)begin
+            if(cnt == 2'd0)
+                cnt <= cnt;
+            else
+                cnt <= cnt-1; 
+        end
+    end
+
+    assign branchpredicted = cnt[1];
 
 endmodule //HazardUnit
 

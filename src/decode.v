@@ -38,7 +38,9 @@ module decode(
     output                  pc_sel_out_o,
     output      [31:0]      pc_branch_target,
     output      [2:0]       bresult_sel_o,
-    output                  rstype_o            
+    output                  rstype_o,
+
+    input                   branchpredicted           
 );
     wire    [31:0]  imm;
     assign imm_o = imm;
@@ -51,6 +53,7 @@ module decode(
 
     crtl u_crtl(
     .inst      ( inst      ),
+    .branchpredicted(branchpredicted),
     .we        ( we_o        ),
     .aluBsel   ( aluBsel_o   ),
     .alu_sel   ( alu_sel_o   ),
