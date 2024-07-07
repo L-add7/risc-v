@@ -242,9 +242,9 @@ Cache 作为连接Imem和Dmem的中间mem，
 
 ​			
 
-实现包括两部分 cache tag 部分和 cache data部分 具体使用状态机实现：
+实现包括两部分 cache tag 部分和 cache data部分 
 
-![image-20240707170315866](readme.assets/image-20240707170315866.png)
+![image-20240707190951096](/home/lijiaqi/project/riscv1/readme.assets/image-20240707190951096.png)
 
 关于req_addr ： 关于地址的解析，由于本实验要求的Cache每路为 128 行，因此 index 需要 7 位，即 2^7 = 128；每行由 8 个块构成， 每个块 32 位（4 个字节），因此 offset 需要 5 位，即 2^5 = 8 * 4；地址其余 20 位作为 tag 。
 
@@ -254,4 +254,9 @@ index 对应cache 的行  cache共 2^index行
 
 每个块有多少位对应offset
 
-IMEM 与DMEM的区别，DMEM需要有写功能，而IMEM不需要
+IMEM 与DMEM的区别，DMEM需要有写功能，而IMEM不需要。
+
+交互部分使用状态机实现：
+
+![image-20240707170315866](readme.assets/image-20240707170315866.png)
+
